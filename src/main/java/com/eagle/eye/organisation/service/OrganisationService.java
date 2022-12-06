@@ -55,10 +55,22 @@ public class OrganisationService {
     }
 
     public Organisation save(Organisation organisation) {
+        return repository.save(
+                new Organisation(
+                        UUID.randomUUID(),
+                        organisation.name(),
+                        organisation.contactName(),
+                        organisation.contactEmail(),
+                        organisation.contactPhone()
+                )
+        );
+    }
+
+    public Organisation update(Organisation organisation) {
         return repository.save(organisation);
     }
 
-    public void delete(Organisation organisation) {
-        repository.delete(organisation);
+    public void delete(UUID organisationId) {
+        repository.deleteById(organisationId);
     }
 }
