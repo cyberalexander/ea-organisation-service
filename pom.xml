@@ -46,7 +46,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>com.eagle.eye.organisation.EaOrganisationServiceApplication</start-class>
         <docker.image.name>cyberalexander/ea-organisation-service</docker.image.name>
-        <docker.image.tag>december22</docker.image.tag>
+        <docker.image.tag>january2023</docker.image.tag>
     </properties>
 
     <dependencyManagement>
@@ -82,8 +82,7 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-            <version>1.4.7.RELEASE</version>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
         <dependency>
@@ -113,6 +112,8 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName> <!-- added to remove Version from WAR file -->
+
         <plugins>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -129,7 +130,7 @@
                             <outputDirectory>${basedir}/target/docker</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}</directory>
+                                    <directory>src/main/docker</directory>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>
@@ -152,7 +153,7 @@
                 </executions>
                 <configuration>
                     <imageName>${docker.image.name}:${docker.image.tag}</imageName>
-                    <dockerDirectory>${basedir}</dockerDirectory>
+                    <dockerDirectory>${basedir}/target/docker</dockerDirectory>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>

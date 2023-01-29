@@ -42,4 +42,6 @@ import java.util.UUID;
  */
 @Repository
 public interface OrganisationRepository extends CrudRepository<Organisation, UUID> {
+    Organisation getByI(UUID organisationId);
+    Optional<Organisation> getByName(String organisationName);
 }
