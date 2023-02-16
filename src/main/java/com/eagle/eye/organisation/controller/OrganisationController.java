@@ -27,6 +27,7 @@ package com.eagle.eye.organisation.controller;
 
 import com.eagle.eye.organisation.model.Organisation;
 import com.eagle.eye.organisation.service.OrganisationService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +51,9 @@ import java.util.UUID;
 @RequestMapping(value = "v1/organisations")
 public class OrganisationController {
 
+    @Value("${organisation.ssn}")
+    private String organisationSsn;
+
     private final OrganisationService service;
 
     public OrganisationController(OrganisationService service) {
@@ -58,21 +62,25 @@ public class OrganisationController {
 
     @GetMapping(value = "/{organisationId}")
     public Organisation getOrganisation(@PathVariable("organisationId") UUID organisationId) {
+        System.out.println("Organisation SSN: " + organisationSsn);
         return service.get(organisationId)
                 .orElseThrow(() -> new RuntimeException("Organisation with id " + organisationId + " not found."));
     }
     @PostMapping
     public void saveOrganisation(@RequestBody Organisation request) {
+        System.out.println("Organisation SSN: " + organisationSsn);
         service.save(request);
     }
 
     @PutMapping
     public Organisation updateOrganisation(@RequestBody Organisation request) {
+        System.out.println("Organisation SSN: " + organisationSsn);
         return service.update(request);
     }
 
     @DeleteMapping(value="/{organisationId}")
     public void deleteOrganisation( @PathVariable("organisationId") UUID organisationId) {
+        System.out.println("Organisation SSN: " + organisationSsn);
         service.delete(organisationId);
     }
 }
