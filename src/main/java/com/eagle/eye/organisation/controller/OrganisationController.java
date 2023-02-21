@@ -25,6 +25,7 @@
 
 package com.eagle.eye.organisation.controller;
 
+import com.eagle.eye.organisation.config.ControllerProperties;
 import com.eagle.eye.organisation.model.Organisation;
 import com.eagle.eye.organisation.service.OrganisationService;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,36 +52,36 @@ import java.util.UUID;
 @RequestMapping(value = "v1/organisations")
 public class OrganisationController {
 
-    @Value("${organisation.ssn}")
-    private String organisationSsn;
+    private final ControllerProperties controllerProperties;
 
     private final OrganisationService service;
 
-    public OrganisationController(OrganisationService service) {
+    public OrganisationController(ControllerProperties controllerProperties, OrganisationService service) {
+        this.controllerProperties = controllerProperties;
         this.service = service;
     }
 
     @GetMapping(value = "/{organisationId}")
     public Organisation getOrganisation(@PathVariable("organisationId") UUID organisationId) {
-        System.out.println("Organisation SSN: " + organisationSsn);
+        System.out.println("Organisation SSN: " + controllerProperties.getOrganisationSsn());
         return service.get(organisationId)
                 .orElseThrow(() -> new RuntimeException("Organisation with id " + organisationId + " not found."));
     }
     @PostMapping
     public void saveOrganisation(@RequestBody Organisation request) {
-        System.out.println("Organisation SSN: " + organisationSsn);
+        System.out.println("Organisation SSN: " + controllerProperties.getOrganisationSsn());
         service.save(request);
     }
 
     @PutMapping
     public Organisation updateOrganisation(@RequestBody Organisation request) {
-        System.out.println("Organisation SSN: " + organisationSsn);
+        System.out.println("Organisation SSN: " + controllerProperties.getOrganisationSsn());
         return service.update(request);
     }
 
     @DeleteMapping(value="/{organisationId}")
     public void deleteOrganisation( @PathVariable("organisationId") UUID organisationId) {
-        System.out.println("Organisation SSN: " + organisationSsn);
+        System.out.println("Organisation SSN: " + controllerProperties.getOrganisationSsn());
         service.delete(organisationId);
     }
 }

@@ -41,7 +41,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "ea.organisation.service")
 public class ControllerProperties {
 
-    @Value("${organisation.ssn}")
+    @Value("${ea.organisation.service.organisation.ssn}")
     private String organisationSsn;
 
     public String getOrganisationSsn() {

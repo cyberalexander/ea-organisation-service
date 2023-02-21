@@ -1,7 +1,13 @@
+# application bootstrap configuration
 spring:
+  application:
+    name: ea-organisation-service
+  profiles:
+    active: default
   config:
-    import: optional:configserver:http://localhost:8888
+    import: configserver:http://localhost:8888
 
+# eureka configuration
 eureka:
   instance:
     prefer-ip-address: true                                 #register the IP of the service rather than the server name.
@@ -11,3 +17,7 @@ eureka:
     service-url:
       default-zone: http://localhost:8761/eureka/           #location of the Eureka Service
 
+# application configuration
+logging:
+  level:
+    root: info
