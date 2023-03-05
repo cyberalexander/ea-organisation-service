@@ -25,6 +25,10 @@
 
 package com.eagle.eye.organisation.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -40,6 +44,9 @@ import java.util.UUID;
  * @author Aliaksandr_Leanovich
  * @version 1.0
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "ea_organisations")
 public class Organisation {
@@ -59,57 +66,6 @@ public class Organisation {
 
     @Column(name = "contact_phone", nullable = false)
     private String contactPhone;
-
-    public Organisation() {
-    }
-
-    public Organisation(UUID id, String name, String contactName, String contactEmail, String contactPhone) {
-        this.id = id;
-        this.name = name;
-        this.contactName = contactName;
-        this.contactEmail = contactEmail;
-        this.contactPhone = contactPhone;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContactName() {
-        return contactName;
-    }
-
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
-
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-
-    public String getContactPhone() {
-        return contactPhone;
-    }
-
-    public void setContactPhone(String contactPhone) {
-        this.contactPhone = contactPhone;
-    }
 
     @Override
     public boolean equals(Object o) {

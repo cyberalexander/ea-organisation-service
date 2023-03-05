@@ -26,7 +26,6 @@
 package com.eagle.eye.organisation.service;
 
 import com.eagle.eye.organisation.model.Organisation;
-import com.eagle.eye.organisation.repository.OrganisationRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
@@ -58,10 +57,10 @@ public class OrganisationService {
         return repository.save(
                 new Organisation(
                         UUID.randomUUID(),
-                        organisation.name(),
-                        organisation.contactName(),
-                        organisation.contactEmail(),
-                        organisation.contactPhone()
+                        organisation.getName(),
+                        organisation.getContactName(),
+                        organisation.getContactEmail(),
+                        organisation.getContactPhone()
                 )
         );
     }

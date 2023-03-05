@@ -67,9 +67,10 @@ public class OrganisationController {
                 .orElseThrow(() -> new RuntimeException("Organisation with id " + organisationId + " not found."));
     }
     @PostMapping
-    public void saveOrganisation(@RequestBody Organisation request) {
+    public UUID saveOrganisation(@RequestBody Organisation request) {
         System.out.println("Organisation SSN: " + controllerProperties.getOrganisationSsn());
-        service.save(request);
+        Organisation saved = service.save(request);
+        return saved.getId();
     }
 
     @PutMapping
