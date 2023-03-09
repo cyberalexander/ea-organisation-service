@@ -1,0 +1,9 @@
+### Disable integration with Spring Cloud Configuration Server and use configurations from the current file
+spring:
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+
+ea.organisation.service.organisation-ssn: "TEST-SSN-56279184"

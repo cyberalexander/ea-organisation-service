@@ -1,0 +1,28 @@
+### Create new Organisation
+POST http://localhost:8181/v1/organisations
+Content-Type: application/json
+
+{
+  "name": "test name 2",
+  "contactName": "test contact name 3",
+  "contactEmail": "test email 4",
+  "contactPhone": "test phone 5"
+}
+
+### Get Organisation by Id
+GET http://localhost:8181/v1/organisations/46303e48-a1fd-4f37-9167-032cbebcfd8e
+
+### Update Organisation
+PUT http://localhost:8181/v1/organisations
+Content-Type: application/json
+
+{
+  "id": "46303e48-a1fd-4f37-9167-032cbebcfd8e",
+  "name": "test name 100",
+  "contactName": "test contact name 3",
+  "contactEmail": "test email 4",
+  "contactPhone": "test phone 5"
+}
+
+### Delete Organisation by Id
+DELETE http://localhost:8181/v1/organisations/74f2b5b4-88bf-4b8e-b79a-2427378add2b
