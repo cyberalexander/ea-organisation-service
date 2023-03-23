@@ -23,32 +23,57 @@
  *
  */
 
-package com.eagle.eye.organisation.config;
+package com.eagle.eye.organisation.controller;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import com.eagle.eye.organisation.service.OrganisationService;
+import lombok.SneakyThrows;
+import org.jeasy.random.EasyRandom;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
 
 /**
- * Created : 18/02/2023 08:59
+ * Created : 23/03/2023 09:16
  * Project : ea-organisation-service
  * IDE : IntelliJ IDEA
  *
- * @author CyberAlexander
+ * @author Aliaksandr_Leanovich
  * @version 1.0
  */
-@Configuration
-@ConfigurationProperties(prefix = "ea.organisation.service")
-public class ControllerProperties {
+@ActiveProfiles(value = {"test"})
+@WebMvcTest(controllers = {OrganisationController.class})
+class OrganisationControllerTests {
 
-    @Value("${ea.organisation.service.organisation.ssn}")
-    private String organisationSsn;
+    private static final EasyRandom EASY_RANDOM = new EasyRandom();
 
-    public String getOrganisationSsn() {
-        return organisationSsn;
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private OrganisationService serviceMock;
+
+    @Autowired
+    @InjectMocks
+    private OrganisationController controller;
+
+    @Test
+    @SneakyThrows
+    void getOrganisation() {
     }
 
-    public void setOrganisationSsn(String organisationSsn) {
-        this.organisationSsn = organisationSsn;
+    @Test
+    void saveOrganisation() {
+    }
+
+    @Test
+    void updateOrganisation() {
+    }
+
+    @Test
+    void deleteOrganisation() {
     }
 }
