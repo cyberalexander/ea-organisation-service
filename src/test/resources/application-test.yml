@@ -6,4 +6,7 @@ spring:
     discovery:
       enabled: false
 
-ea.organisation.service.organisation-ssn: "TEST-SSN-56279184"
+ea:
+  organisation:
+    service:
+      ea.organisation.service.organisation-ssn: "TEST-SSN-56279184"
