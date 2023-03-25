@@ -48,7 +48,7 @@ import java.util.UUID;
  * @version 1.0
  */
 @RestController
-@RequestMapping(value = "v1/organisations")
+@RequestMapping(value = "v1/organisations", produces = {"application/json"})
 public class OrganisationController {
 
     private final ControllerProperties controllerProperties;
@@ -60,7 +60,7 @@ public class OrganisationController {
         this.service = service;
     }
 
-    @GetMapping(value = "/{organisationId}")
+    @GetMapping(path = "/{organisationId}")
     public Organisation getOrganisation(@PathVariable("organisationId") UUID organisationId) {
         System.out.println("Organisation SSN: " + controllerProperties.getOrganisationSsn());
         return service.get(organisationId)

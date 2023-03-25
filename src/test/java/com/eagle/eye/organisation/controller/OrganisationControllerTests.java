@@ -25,16 +25,27 @@
 
 package com.eagle.eye.organisation.controller;
 
+import com.eagle.eye.organisation.model.Organisation;
 import com.eagle.eye.organisation.service.OrganisationService;
 import lombok.SneakyThrows;
+import org.assertj.core.api.Assertions;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created : 23/03/2023 09:16
@@ -61,19 +72,33 @@ class OrganisationControllerTests {
     private OrganisationController controller;
 
     @Test
+    void testControllerInstantiated() {
+        Assertions.assertThat(controller).isNotNull();
+    }
+
+    @Test
     @SneakyThrows
-    void getOrganisation() {
+    void testGetOrganisation() {
+        Organisation expected = EASY_RANDOM.nextObject(Organisation.class);
+
+        Mockito.when(serviceMock.get(expected.getId())).thenReturn(Optional.of(expected));
+
+        mockMvc.perform(get("/v1/organisations/{organisationId}", expected.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").hasJsonPath());
     }
 
     @Test
-    void saveOrganisation() {
+    void testSaveOrganisation() {
     }
 
     @Test
-    void updateOrganisation() {
+    void testUpdateOrganisation() {
     }
 
     @Test
-    void deleteOrganisation() {
+    void testDeleteOrganisation() {
     }
 }
