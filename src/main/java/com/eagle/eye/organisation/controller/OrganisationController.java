@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 /**
@@ -61,7 +62,7 @@ public class OrganisationController {
     }
 
     @GetMapping(path = "/{organisationId}")
-    public Organisation getOrganisation(@PathVariable("organisationId") UUID organisationId) {
+    public Organisation getOrganisation(@PathVariable("organisationId") @NotBlank UUID organisationId) {
         System.out.println("Organisation SSN: " + controllerProperties.getOrganisationSsn());
         return service.get(organisationId)
                 .orElseThrow(() -> new RuntimeException("Organisation with id " + organisationId + " not found."));

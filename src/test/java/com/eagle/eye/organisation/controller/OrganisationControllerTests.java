@@ -27,6 +27,7 @@ package com.eagle.eye.organisation.controller;
 
 import com.eagle.eye.organisation.model.Organisation;
 import com.eagle.eye.organisation.service.OrganisationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
 import org.jeasy.random.EasyRandom;
@@ -64,6 +65,9 @@ class OrganisationControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     @MockBean
     private OrganisationService serviceMock;
 
@@ -87,11 +91,30 @@ class OrganisationControllerTests {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").hasJsonPath());
+                .andExpect(jsonPath("$.name").hasJsonPath())
+                .andExpect(jsonPath("$.contactName").hasJsonPath())
+                .andExpect(jsonPath("$.contactEmail").hasJsonPath())
+                .andExpect(jsonPath("$.contactPhone").hasJsonPath());
     }
 
     @Test
+    @SneakyThrows
+    void testGetOrganisation_fieldIdNotInTheResponse() {
+        Organisation expected = EASY_RANDOM.nextObject(Organisation.class);
+
+        Mockito.when(serviceMock.get(expected.getId())).thenReturn(Optional.of(expected));
+
+        mockMvc.perform(get("/v1/organisations/{organisationId}", expected.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").doesNotHaveJsonPath());
+    }
+
+    @Test
+    @SneakyThrows
     void testSaveOrganisation() {
+
     }
 
     @Test

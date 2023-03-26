@@ -25,6 +25,7 @@
 
 package com.eagle.eye.organisation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,6 +50,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "ea_organisations")
+@JsonIgnoreProperties(value = {"id"})
 public class Organisation {
 
     @Id
