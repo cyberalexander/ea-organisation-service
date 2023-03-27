@@ -44,6 +44,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -114,11 +116,38 @@ class OrganisationControllerTests {
     @Test
     @SneakyThrows
     void testSaveOrganisation() {
+        Organisation newOrganisation = EASY_RANDOM.nextObject(Organisation.class);
 
+        Mockito.when(serviceMock.save(Mockito.any())).thenReturn(newOrganisation);
+
+        mockMvc.perform(post("/v1/organisations")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(newOrganisation)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(mapper.writeValueAsString(newOrganisation.getId())));
     }
 
     @Test
+    @SneakyThrows
     void testUpdateOrganisation() {
+        Organisation updated = EASY_RANDOM.nextObject(Organisation.class);
+
+        Mockito.when(serviceMock.update(Mockito.any())).thenReturn(updated);
+        Mockito.when(serviceMock.get(updated.getId())).thenReturn(Optional.of(updated));
+
+        // 1. Test that PUT operation invoked successfully
+        mockMvc.perform(put("/v1/organisations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(updated)))
+                .andExpect(status().isOk());
+
+        // 2. Invoke GET operation to check that object was updated during PUT operation
+        mockMvc.perform(get("/v1/organisations/{organisationId}", updated.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(mapper.writeValueAsString(updated)))
+                .andExpect(jsonPath("$.name").value(updated.getName()));
     }
 
     @Test
