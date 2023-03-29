@@ -25,7 +25,6 @@
 
 package com.eagle.eye.organisation.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -38,10 +37,9 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0
  */
 @Configuration
-@ConfigurationProperties(prefix = "ea.organisation.service")
+@ConfigurationProperties("ea.organisation.service")
 public class ControllerProperties {
 
-    @Value("${ea.organisation.service.organisation.ssn}")
     private String organisationSsn;
 
     public String getOrganisationSsn() {

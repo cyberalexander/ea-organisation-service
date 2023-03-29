@@ -9,4 +9,4 @@ spring:
 ea:
   organisation:
     service:
-      ea.organisation.service.organisation-ssn: "TEST-SSN-56279184"
+      organisation-ssn: "TEST-SSN-56279184"
