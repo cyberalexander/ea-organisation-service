@@ -29,6 +29,7 @@ import com.eagle.eye.organisation.model.Organisation;
 import com.eagle.eye.organisation.service.OrganisationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Test;
@@ -41,8 +42,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -58,6 +62,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Aliaksandr_Leanovich
  * @version 1.0
  */
+@Slf4j
 @ActiveProfiles(value = {"test"})
 @WebMvcTest(controllers = {OrganisationController.class})
 class OrganisationControllerTests {
@@ -79,6 +84,7 @@ class OrganisationControllerTests {
 
     @Test
     void testControllerInstantiated() {
+        log.info("{} instantiated : {}", OrganisationController.class.getName(), !Objects.isNull(controller));
         Assertions.assertThat(controller).isNotNull();
     }
 
@@ -121,8 +127,8 @@ class OrganisationControllerTests {
         Mockito.when(serviceMock.save(Mockito.any())).thenReturn(newOrganisation);
 
         mockMvc.perform(post("/v1/organisations")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(newOrganisation)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(newOrganisation)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(mapper.writeValueAsString(newOrganisation.getId())));
@@ -151,6 +157,12 @@ class OrganisationControllerTests {
     }
 
     @Test
+    @SneakyThrows
     void testDeleteOrganisation() {
+        UUID organisationId = UUID.randomUUID();
+
+        mockMvc.perform(delete("/v1/organisations/{organisationId}", organisationId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
