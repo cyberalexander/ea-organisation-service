@@ -51,4 +51,9 @@ class ControllerPropertiesTests {
     void testGetOrganisationSsn() {
         Assertions.assertThat(controllerProperties.getOrganisationSsn()).isNotNull();
     }
+
+    @Test
+    void testGetOrganisationSsn_ValueTakenFromTestProperties() {
+        Assertions.assertThat(controllerProperties.getOrganisationSsn()).isEqualTo("TEST-SSN-56279184");
+    }
 }
