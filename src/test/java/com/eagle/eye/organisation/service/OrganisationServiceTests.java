@@ -25,8 +25,10 @@
 
 package com.eagle.eye.organisation.service;
 
+import com.eagle.eye.organisation.controller.OrganisationController;
 import com.eagle.eye.organisation.model.Organisation;
 import com.eagle.eye.organisation.repository.OrganisationRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,6 +51,7 @@ import java.util.UUID;
  * @author Aliaksandr_Leanovich
  * @version 1.0
  */
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 class OrganisationServiceTests {
 
@@ -59,6 +63,12 @@ class OrganisationServiceTests {
     @MockBean
     @InjectMocks
     private OrganisationService service;
+
+    @Test
+    void testServiceInstantiated() {
+        log.info("{} instantiated : {}", OrganisationController.class.getName(), !Objects.isNull(service));
+        Assertions.assertThat(service).isNotNull();
+    }
 
     @Test
     void testGet() {
@@ -77,6 +87,7 @@ class OrganisationServiceTests {
                 created.getContactEmail(),
                 created.getContactPhone()
         );
+        log.debug("Created Id: {}; Saved Id: {}", created.getId(), saved.getId());
 
         Mockito.when(repository.save(Mockito.any())).thenReturn(saved);
         Assertions.assertThat(service.save(created)).isEqualTo(saved);
