@@ -66,7 +66,7 @@ class OrganisationServiceTests {
 
     @Test
     void testServiceInstantiated() {
-        log.info("{} instantiated : {}", OrganisationController.class.getName(), !Objects.isNull(service));
+        log.info("{} instantiated : [{}]", OrganisationController.class.getName(), service);
         Assertions.assertThat(service).isNotNull();
     }
 
@@ -95,13 +95,15 @@ class OrganisationServiceTests {
 
     @Test
     void testUpdate() {
-        Optional<Organisation> updated = Optional.of(R.nextObject(Organisation.class));
-
+        Organisation updated = R.nextObject(Organisation.class);
+        Mockito.when(repository.save(Mockito.any())).thenReturn(updated);
+        Assertions.assertThat(service.update(updated)).isEqualTo(updated);
     }
 
     @Test
     void testDelete() {
-        Optional<Organisation> deleted = Optional.of(R.nextObject(Organisation.class));
-
+        UUID organisationId = UUID.randomUUID();
+        service.delete(organisationId);
+        Mockito.verify(repository).deleteById(organisationId);
     }
 }
