@@ -28,7 +28,7 @@ jobs:
 
     steps:
     - name: Checkout Sources
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
 
     - name: Set Up JDK ${{ matrix.java-version }}
       uses: actions/setup-java@v3
